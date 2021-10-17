@@ -507,13 +507,14 @@ android:layout_height="match_parent">
             android:layout_marginLeft="3dp"
             android:textAllCaps="false"
             />
+
         <Button
             android:id="@+id/char_b"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:text="b"
             android:layout_toRightOf="@+id/char_v"
-            android:layout_marginLeft="36dp"
+            android:layout_marginLeft="22dp"
             android:textAllCaps="false"
             />
         <Button
@@ -539,17 +540,16 @@ android:layout_height="match_parent">
 
         <Button
             android:id="@+id/char_comma"
-            android:layout_width="36dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:text=",   &lt;"
-
             android:layout_toLeftOf="@+id/left"
-            android:layout_marginLeft="16dp"
             android:textAllCaps="false"
             />
+
         <Button
             android:id="@+id/left"
-            android:layout_width="36dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:text="Left"
 
@@ -559,7 +559,7 @@ android:layout_height="match_parent">
 
         <Button
             android:id="@+id/right"
-            android:layout_width="36dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:text="Right"
 

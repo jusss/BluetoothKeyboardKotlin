@@ -18,12 +18,11 @@ import kotlinx.coroutines.*
 class KeyboardActivityKotlin : AppCompatActivity() {
     val TAG = "BluetoothKeyboard"
     lateinit var TARGET_DEVICE_NAME: String
-    var handler: Handler? = null
-    lateinit var runRepeat: Runnable
-    lateinit var hidDataSender: HidDataSender
-    lateinit var keyboardHelper: KeyboardHelper
+    var hidDataSender: HidDataSender? = null
+    var keyboardHelper: KeyboardHelper? = null
 
-    private val profileListener: ProfileListener = object : ProfileListener {
+//    private val profileListener : ProfileListener = object : ProfileListener {   will make the second ProfileListener not solved, weird! convert by AS
+    private val profileListener = object : ProfileListener {
         @MainThread
         override fun onDeviceStateChanged(device: BluetoothDevice, state: Int) {
             // 0 = disconnected, 1 = connecting, 2 = connected
@@ -59,7 +58,7 @@ class KeyboardActivityKotlin : AppCompatActivity() {
         if (screenSize == "2340x1080") setContentView(R.layout.activity_keyboard_2340x1080)
         if (screenSize == "1280x720_large") setContentView(R.layout.activity_keyboard_1280x720_large)
         hidDataSender = HidDataSender.getInstance()
-        val hidDeviceProfile = hidDataSender.register(applicationContext, profileListener)
+        val hidDeviceProfile = hidDataSender!!.register(applicationContext, profileListener)
         keyboardHelper = KeyboardHelper(hidDataSender)
 
         val regularKey = arrayListOf<Int>(
