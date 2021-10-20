@@ -32,6 +32,11 @@ C-S? for Windows<br/>
 # Release
 see --> github release
 
+# Feature
+add OTG Keyboard feature, so if you use otg connect wired keyboard to your android phone<br/>
+then connect your android phone to iPhone via bluetooth, this app can turn you wired keyboard<br/>
+into a bluetooth keyboard, use android phone as a bridge.
+
 # Note
 Shift Del just send Shift, and Win Del just send Win. iOS use Ctrl-Space to switch English/Chinese in default input method, Android use Shift-Space to switch English/Chinese in Google Pinyin.<br/>
 it uses scan code, not key code,<br/>
