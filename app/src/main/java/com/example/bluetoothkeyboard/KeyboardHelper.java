@@ -96,7 +96,7 @@ public class KeyboardHelper {
         int MENU = 118;
     }
 
-    private static final Map<Character, Integer> keyMap =
+    public static final Map<Character, Integer> keyMap =
             new ImmutableMap.Builder<Character, Integer>()
                     .put('a', 0x04)
                     .put('b', 0x05)
@@ -148,7 +148,7 @@ public class KeyboardHelper {
                     .put('/', 0x38)
                     .build();
 
-    private static final Map<Character, Integer> shiftKeyMap =
+    public static final Map<Character, Integer> shiftKeyMap =
             new ImmutableMap.Builder<Character, Integer>()
                     .put('A', 0x04)
                     .put('B', 0x05)
@@ -286,7 +286,7 @@ public class KeyboardHelper {
      */
 
 
-    public Map<String,Integer> scancode = new HashMap<String, Integer>(){
+    public static final Map<String,Integer> scancode = new HashMap<String, Integer>(){
         {
             put("Enter", Key.ENTER);
             put("Esc", Key.ESCAPE);

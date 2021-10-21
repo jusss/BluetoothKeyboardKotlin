@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothProfile
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -12,12 +11,14 @@ import android.view.SoundEffectConstants
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.SearchView
-import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetoothkeyboard.HidDataSender.ProfileListener
-import kotlinx.coroutines.*
+import com.example.bluetoothkeyboard.KeyboardHelper.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class KeyboardActivityKotlin : AppCompatActivity() {
     val TAG = "BluetoothKeyboard"
@@ -200,19 +201,103 @@ class KeyboardActivityKotlin : AppCompatActivity() {
                 KeyEvent.KEYCODE_K to 'k', KeyEvent.KEYCODE_L to 'l', KeyEvent.KEYCODE_Q to 'q', KeyEvent.KEYCODE_W to 'w', KeyEvent.KEYCODE_E to 'e', KeyEvent.KEYCODE_R to 'r',
                 KeyEvent.KEYCODE_T to 't', KeyEvent.KEYCODE_Y to 'y', KeyEvent.KEYCODE_U to 'u', KeyEvent.KEYCODE_I to 'i', KeyEvent.KEYCODE_O to 'o', KeyEvent.KEYCODE_P to 'p',
                 KeyEvent.KEYCODE_1 to '1', KeyEvent.KEYCODE_2 to '2', KeyEvent.KEYCODE_3 to '3', KeyEvent.KEYCODE_4 to '4', KeyEvent.KEYCODE_5 to '5', KeyEvent.KEYCODE_6 to '6',
-                KeyEvent.KEYCODE_7 to '7', KeyEvent.KEYCODE_8 to '8', KeyEvent.KEYCODE_9 to '9', KeyEvent.KEYCODE_0 to '0'
+                KeyEvent.KEYCODE_7 to '7', KeyEvent.KEYCODE_8 to '8', KeyEvent.KEYCODE_9 to '9', KeyEvent.KEYCODE_0 to '0', KeyEvent.KEYCODE_GRAVE to '`',
+                KeyEvent.KEYCODE_SLASH to '/', KeyEvent.KEYCODE_SEMICOLON to ';', KeyEvent.KEYCODE_APOSTROPHE to '\'', KeyEvent.KEYCODE_LEFT_BRACKET to '[', KeyEvent.KEYCODE_RIGHT_BRACKET to ']',
+                KeyEvent.KEYCODE_BACKSLASH to '\\', KeyEvent.KEYCODE_MINUS to '-', KeyEvent.KEYCODE_EQUALS to '='
         )
         val specialPhysicsKey = mutableMapOf<Int, String>(
-                KeyEvent.KEYCODE_SPACE to "Space", KeyEvent.KEYCODE_ENTER to "Enter", KeyEvent.KEYCODE_DEL to "Back"
+                KeyEvent.KEYCODE_SPACE to "Space", KeyEvent.KEYCODE_ENTER to "Enter", KeyEvent.KEYCODE_DEL to "Back",
+                KeyEvent.KEYCODE_TAB to "Tab", KeyEvent.KEYCODE_ESCAPE to "Esc",
+                KeyEvent.KEYCODE_SYSTEM_NAVIGATION_DOWN to "Down", KeyEvent.KEYCODE_SYSTEM_NAVIGATION_UP to "Up",
+                KeyEvent.KEYCODE_SYSTEM_NAVIGATION_LEFT to "Left", KeyEvent.KEYCODE_SYSTEM_NAVIGATION_RIGHT to "Right",
+                KeyEvent.KEYCODE_FORWARD_DEL to "Del", KeyEvent.KEYCODE_INSERT to "Ins",
+                KeyEvent.KEYCODE_PAGE_DOWN to "PgDn", KeyEvent.KEYCODE_PAGE_UP to "PgUp"
         )
 
         editTextView?.setOnKeyListener { v: View?, keyCode: Int, event: KeyEvent? ->
-            if (event!!.isShiftPressed() && keyCode == KeyEvent.KEYCODE_SLASH) {
-               keyboardHelper!!.sendChar('?')
+
+            if (event!!.isShiftPressed()){
+                if (regularPhysicsKey.containsKey(keyCode)) {
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
+                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+//                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
+                    )
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+                }
+
+                if (specialPhysicsKey.containsKey(keyCode)){
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
+                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+
+                }
 //                event.getUnicodeChar()
+                return@setOnKeyListener true
             }
 
+            if (event!!.isCtrlPressed()){
+                if (regularPhysicsKey.containsKey(keyCode)) {
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
+                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+//                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
+                    )
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+                }
 
+                if (specialPhysicsKey.containsKey(keyCode)){
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
+                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+
+                }
+//                event.getUnicodeChar()
+                return@setOnKeyListener true
+            }
+
+            if (event!!.isAltPressed()){
+                if (regularPhysicsKey.containsKey(keyCode)) {
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
+                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+//                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
+                    )
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+                }
+
+                if (specialPhysicsKey.containsKey(keyCode)){
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
+                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+
+                }
+//                event.getUnicodeChar()
+                return@setOnKeyListener true
+            }
+            if (event!!.isFunctionPressed()){
+                if (regularPhysicsKey.containsKey(keyCode)) {
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
+                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+//                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
+                    )
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+                }
+
+                if (specialPhysicsKey.containsKey(keyCode)){
+                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
+                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
+                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    return@setOnKeyListener true
+
+                }
+//                event.getUnicodeChar()
+                return@setOnKeyListener true
+            }
             if (event?.action == KeyEvent.ACTION_DOWN) {
                 if (hidDataSender!!.isConnected) {
                     Log.d(TAG, "Sending message: $keyCode")
@@ -225,15 +310,17 @@ class KeyboardActivityKotlin : AppCompatActivity() {
                             keyboardHelper!!.sendSpecialKey(specialPhysicsKey.getOrDefault(keyCode,"Space"))
                             return@setOnKeyListener true
                         }
-                    } else {
-//                        keyboardHelper!!.sendModifierKey(c)
                     }
+//                    else {
+//                        keyboardHelper!!.sendModifierKey(c)
+//                    }
                 } else {
                     for (device in BluetoothAdapter.getDefaultAdapter().bondedDevices) if (TARGET_DEVICE_NAME == device.name) {
                         Log.d(TAG, "Requesting connection to " + device.name)
                         // register again when app switch back from background
                         hidDataSender!!.register(applicationContext, profileListener)
                         hidDataSender!!.requestConnect(device)
+                        return@setOnKeyListener true
                     }
                 }
             }
