@@ -25,6 +25,7 @@ class KeyboardActivityKotlin : AppCompatActivity() {
     lateinit var TARGET_DEVICE_NAME: String
     var hidDataSender: HidDataSender? = null
     var keyboardHelper: KeyboardHelper? = null
+    var modifierKeyEventRepeatControl :Boolean = true
 
 //    private val profileListener : ProfileListener = object : ProfileListener {   will make the second ProfileListener not solved, weird! convert by AS
     private val profileListener = object : ProfileListener {
@@ -208,8 +209,8 @@ class KeyboardActivityKotlin : AppCompatActivity() {
         val specialPhysicsKey = mutableMapOf<Int, String>(
                 KeyEvent.KEYCODE_SPACE to "Space", KeyEvent.KEYCODE_ENTER to "Enter", KeyEvent.KEYCODE_DEL to "Back",
                 KeyEvent.KEYCODE_TAB to "Tab", KeyEvent.KEYCODE_ESCAPE to "Esc",
-                KeyEvent.KEYCODE_SYSTEM_NAVIGATION_DOWN to "Down", KeyEvent.KEYCODE_SYSTEM_NAVIGATION_UP to "Up",
-                KeyEvent.KEYCODE_SYSTEM_NAVIGATION_LEFT to "Left", KeyEvent.KEYCODE_SYSTEM_NAVIGATION_RIGHT to "Right",
+                KeyEvent.KEYCODE_DPAD_LEFT to "Left", KeyEvent.KEYCODE_DPAD_DOWN to "Down",
+                KeyEvent.KEYCODE_DPAD_UP to "Up", KeyEvent.KEYCODE_DPAD_RIGHT to "Right",
                 KeyEvent.KEYCODE_FORWARD_DEL to "Del", KeyEvent.KEYCODE_INSERT to "Ins",
                 KeyEvent.KEYCODE_PAGE_DOWN to "PgDn", KeyEvent.KEYCODE_PAGE_UP to "PgUp"
         )
@@ -218,20 +219,29 @@ class KeyboardActivityKotlin : AppCompatActivity() {
 
             if (event!!.isShiftPressed()){
                 if (regularPhysicsKey.containsKey(keyCode)) {
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
-                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
+                                keyMap.get(regularPhysicsKey.getOrDefault(keyCode, 'a')) ?: 0
 //                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
-                    )
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                        )
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
                 }
 
                 if (specialPhysicsKey.containsKey(keyCode)){
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
-                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_SHIFT,
+                                scancode.getOrDefault(specialPhysicsKey.get(keyCode), 0))
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
-
                 }
 //                event.getUnicodeChar()
                 return@setOnKeyListener true
@@ -239,18 +249,28 @@ class KeyboardActivityKotlin : AppCompatActivity() {
 
             if (event!!.isCtrlPressed()){
                 if (regularPhysicsKey.containsKey(keyCode)) {
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
-                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
+                                keyMap.get(regularPhysicsKey.getOrDefault(keyCode, 'a')) ?: 0
 //                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
-                    )
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                        )
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
                 }
 
                 if (specialPhysicsKey.containsKey(keyCode)){
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
-                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_CTRL,
+                                scancode.getOrDefault(specialPhysicsKey.get(keyCode), 0))
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
 
                 }
@@ -260,44 +280,67 @@ class KeyboardActivityKotlin : AppCompatActivity() {
 
             if (event!!.isAltPressed()){
                 if (regularPhysicsKey.containsKey(keyCode)) {
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
-                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
+                                keyMap.get(regularPhysicsKey.getOrDefault(keyCode, 'a')) ?: 0
 //                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
-                    )
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                        )
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
                 }
 
                 if (specialPhysicsKey.containsKey(keyCode)){
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
-                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_ALT,
+                                scancode.getOrDefault(specialPhysicsKey.get(keyCode), 0))
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
 
                 }
 //                event.getUnicodeChar()
                 return@setOnKeyListener true
             }
-            if (event!!.isFunctionPressed()){
+
+            // window key is event!!.isSymPressed or event!!.isMetaPressed or event!!.isFunctionPressed
+            if (event!!.isSymPressed()){
                 if (regularPhysicsKey.containsKey(keyCode)) {
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
-                            keyMap.get(regularPhysicsKey.getOrDefault(keyCode,'a')) ?: 0
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
+                                keyMap.get(regularPhysicsKey.getOrDefault(keyCode, 'a')) ?: 0
 //                                    ?: shiftKeyMap.getOrDefault(regularPhysicsKey.getOrDefault(keyCode,'a'),0)
-                    )
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                        )
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
                 }
 
                 if (specialPhysicsKey.containsKey(keyCode)){
-                    keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
-                            scancode.getOrDefault(specialPhysicsKey.get(keyCode),0))
-                    keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    if (modifierKeyEventRepeatControl) {
+                        // shift space, it will send twice key event, reduce one
+                        modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()
+                        keyboardHelper!!.sendKeyDown(KeyboardHelper.Modifier.LEFT_GUI,
+                                scancode.getOrDefault(specialPhysicsKey.get(keyCode), 0))
+                        keyboardHelper!!.sendKeysUp(KeyboardHelper.Modifier.NONE)
+                    }
+                    else {modifierKeyEventRepeatControl = modifierKeyEventRepeatControl.not()}
                     return@setOnKeyListener true
 
                 }
 //                event.getUnicodeChar()
                 return@setOnKeyListener true
             }
+
             if (event?.action == KeyEvent.ACTION_DOWN) {
                 if (hidDataSender!!.isConnected) {
                     Log.d(TAG, "Sending message: $keyCode")
