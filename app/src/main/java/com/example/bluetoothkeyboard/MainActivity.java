@@ -53,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
         CheckBox size3 = new CheckBox(this);
         size3.setText("1280x720 large");
 
+        CheckBox size5 = new CheckBox(this);
+        size5.setText("otg keyboard");
+
         ls.addView(size1);
         ls.addView(size2);
         ls.addView(size3);
+        ls.addView(size5);
 
         size1.setChecked(true);
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 size1.setChecked(true);
                 size2.setChecked(false);
                 size3.setChecked(false);
+                size5.setChecked(false);
                 screenSize = "1280x720";
             }
         });
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 size1.setChecked(false);
                 size2.setChecked(true);
                 size3.setChecked(false);
+                size5.setChecked(false);
                 screenSize = "2340x1080";
             }
         });
@@ -86,7 +92,19 @@ public class MainActivity extends AppCompatActivity {
                 size1.setChecked(false);
                 size2.setChecked(false);
                 size3.setChecked(true);
+                size5.setChecked(false);
                 screenSize = "1280x720_large";
+            }
+        });
+
+        size5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                size1.setChecked(false);
+                size2.setChecked(false);
+                size3.setChecked(false);
+                size5.setChecked(true);
+                screenSize = "otg_keyboard";
             }
         });
     }
