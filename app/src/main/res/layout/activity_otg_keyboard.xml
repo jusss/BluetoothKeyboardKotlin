@@ -12,7 +12,7 @@
 
     <EditText
         android:id="@+id/edit_text"
-        android:hint="connect your wired keyboard by otg"
+        android:hint="connect your wired keyboard by otg, set aosp keyboard as input method"
         android:theme="@style/MyEditText"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="@null"

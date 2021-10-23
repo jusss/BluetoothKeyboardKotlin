@@ -42,6 +42,7 @@ Shift Del just send Shift, and Win Del just send Win. iOS use Ctrl-Space to swit
 it uses scan code, not key code,<br/>
 for example, Delete 76, Backspace 42, Ctrl 224<br/>
 check it on https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf<br/>
+android keycode https://elementalx.org/button-mapper/android-key-codes/ <br/>
 
 there's a bluetooth connect issue in latest LineageOS ROM for Redmi 2, but the old one is fine.<br/>
 if bluetooth keep disconnect, reboot the Android device, or forget paired device from both side, then pair again.

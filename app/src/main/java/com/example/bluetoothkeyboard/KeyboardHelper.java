@@ -94,7 +94,24 @@ public class KeyboardHelper {
         int PAGEDOWN = 78;
         int PRINTSCREEN = 70;
         int MENU = 118;
+        int F1 = 58;
+        int F2 = 59;
+        int F3 = 60;
+        int F4 = 61;
+        int F5 = 62;
+        int F6 = 63;
+        int F7 = 64;
+        int F8 = 65;
+        int F9 = 66;
+        int F10 = 67;
+        int F11 = 68;
+        int F12 = 69;
+        int SCROLLLOCK = 71;
+        int PAUSE = 72;
+        int HOME = 74;
+        int END = 77;
     }
+    // https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
 
     public static final Map<Character, Integer> keyMap =
             new ImmutableMap.Builder<Character, Integer>()
@@ -301,6 +318,24 @@ public class KeyboardHelper {
             put("Del", Key.DELETE);
             put("PgUp", Key.PAGEUP);
             put("PgDn", Key.PAGEDOWN);
+            put("PRINTSCREEN", Key.PRINTSCREEN);
+            put("MENU",Key.MENU);
+            put("SCROLLLOCK",Key.SCROLLLOCK);
+            put("PAUSE",Key.PAUSE);
+            put("HOME",Key.HOME);
+            put("END",Key.END);
+            put("F1",Key.F1);
+            put("F2",Key.F2);
+            put("F3",Key.F3);
+            put("F4",Key.F4);
+            put("F5",Key.F5);
+            put("F6",Key.F6);
+            put("F7",Key.F7);
+            put("F8",Key.F8);
+            put("F9",Key.F9);
+            put("F10",Key.F10);
+            put("F11",Key.F11);
+            put("F12",Key.F12);
             put("Ctrl", Modifier.LEFT_CTRL);
             put("Shift", Modifier.LEFT_SHIFT);
             put("Alt", Modifier.LEFT_ALT);

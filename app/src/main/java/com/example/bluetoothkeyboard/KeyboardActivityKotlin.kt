@@ -176,25 +176,6 @@ class KeyboardActivityKotlin : AppCompatActivity() {
 //            }
 //        })
 
-//        val regularKey = arrayListOf<Int>(
-//                R.id.char_comma, R.id.char_z,R.id.char_x,R.id.char_c,R.id.char_v,
-//                R.id.char_b,R.id.char_n,R.id.char_m,R.id.char_period,R.id.char_a,
-//                R.id.char_s,R.id.char_d,R.id.char_f,R.id.char_g,R.id.char_h,R.id.char_j,
-//                R.id.char_k,R.id.char_l,R.id.char_q,R.id.char_w,R.id.char_e,R.id.char_r,
-//                R.id.char_t,R.id.char_y,R.id.char_u,R.id.char_i,R.id.char_o,R.id.char_p,
-//                R.id.char_1,R.id.char_2,R.id.char_3,R.id.char_4,R.id.char_5,R.id.char_6,
-//                R.id.char_7,R.id.char_8,R.id.char_9,R.id.char_0,R.id.question,R.id.backquote,
-//                R.id.char_slash,R.id.semicolon,R.id.single_quote,R.id.left_square,R.id.right_square,
-//                R.id.back_slach,R.id.hyphen,R.id.equal
-//        )
-//        val specialKey = arrayListOf<Int>(
-//                R.id.space,R.id.enter,
-//                R.id.left,R.id.right,R.id.down,R.id.up,R.id.tab,R.id.back,R.id.esc
-//        )
-//
-//        val modifierKey = arrayListOf<Int>(
-//                R.id.ctrl,R.id.window,R.id.alt,R.id.shift
-//        )
         val regularPhysicsKey = mutableMapOf<Int, Char>(
                 KeyEvent.KEYCODE_COMMA to ',', KeyEvent.KEYCODE_Z to 'z', KeyEvent.KEYCODE_X to 'x', KeyEvent.KEYCODE_C to 'c', KeyEvent.KEYCODE_V to 'v',
                 KeyEvent.KEYCODE_B to 'b', KeyEvent.KEYCODE_N to 'n', KeyEvent.KEYCODE_M to 'm', KeyEvent.KEYCODE_PERIOD to '.', KeyEvent.KEYCODE_A to 'a',
@@ -206,14 +187,22 @@ class KeyboardActivityKotlin : AppCompatActivity() {
                 KeyEvent.KEYCODE_SLASH to '/', KeyEvent.KEYCODE_SEMICOLON to ';', KeyEvent.KEYCODE_APOSTROPHE to '\'', KeyEvent.KEYCODE_LEFT_BRACKET to '[', KeyEvent.KEYCODE_RIGHT_BRACKET to ']',
                 KeyEvent.KEYCODE_BACKSLASH to '\\', KeyEvent.KEYCODE_MINUS to '-', KeyEvent.KEYCODE_EQUALS to '='
         )
+
         val specialPhysicsKey = mutableMapOf<Int, String>(
                 KeyEvent.KEYCODE_SPACE to "Space", KeyEvent.KEYCODE_ENTER to "Enter", KeyEvent.KEYCODE_DEL to "Back",
                 KeyEvent.KEYCODE_TAB to "Tab", KeyEvent.KEYCODE_ESCAPE to "Esc",
                 KeyEvent.KEYCODE_DPAD_LEFT to "Left", KeyEvent.KEYCODE_DPAD_DOWN to "Down",
                 KeyEvent.KEYCODE_DPAD_UP to "Up", KeyEvent.KEYCODE_DPAD_RIGHT to "Right",
                 KeyEvent.KEYCODE_FORWARD_DEL to "Del", KeyEvent.KEYCODE_INSERT to "Ins",
-                KeyEvent.KEYCODE_PAGE_DOWN to "PgDn", KeyEvent.KEYCODE_PAGE_UP to "PgUp"
+                KeyEvent.KEYCODE_PAGE_DOWN to "PgDn", KeyEvent.KEYCODE_PAGE_UP to "PgUp",
+                KeyEvent.KEYCODE_SYSRQ to "PRINTSCREEN", KeyEvent.KEYCODE_MENU to "MENU", KeyEvent.KEYCODE_SCROLL_LOCK to "SCROLLLOCK",
+                KeyEvent.KEYCODE_BREAK to "PAUSE", KeyEvent.KEYCODE_MOVE_HOME to "HOME", KeyEvent.KEYCODE_MOVE_END to "END",
+                KeyEvent.KEYCODE_F1 to "F1", KeyEvent.KEYCODE_F2 to "F2", KeyEvent.KEYCODE_F3 to "F3",
+                KeyEvent.KEYCODE_F4 to "F4", KeyEvent.KEYCODE_F5 to "F5", KeyEvent.KEYCODE_F6 to "F6",
+                KeyEvent.KEYCODE_F7 to "F7", KeyEvent.KEYCODE_F8 to "F8", KeyEvent.KEYCODE_F9 to "F9",
+                KeyEvent.KEYCODE_F10 to "F10", KeyEvent.KEYCODE_F11 to "F11", KeyEvent.KEYCODE_F12 to "F12"
         )
+        // https://elementalx.org/button-mapper/android-key-codes/
 
         editTextView?.setOnKeyListener { v: View?, keyCode: Int, event: KeyEvent? ->
 
