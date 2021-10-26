@@ -38,6 +38,8 @@ then connect your android phone to iPhone via bluetooth, this app can turn you w
 into a bluetooth keyboard, use android phone as a bridge.
 
 # Note
+there is a bug from https://github.com/domi1294/BluetoothHidDemo,<br/>
+it can not work with Windows/Linux/Mac OSX, only work with Android/iPhone,<br/>
 Shift Del just send Shift, and Win Del just send Win. iOS use Ctrl-Space to switch English/Chinese in default input method, Android use Shift-Space to switch English/Chinese in Google Pinyin.<br/>
 it uses scan code, not key code,<br/>
 for example, Delete 76, Backspace 42, Ctrl 224<br/>
@@ -46,3 +48,15 @@ android keycode https://elementalx.org/button-mapper/android-key-codes/ <br/>
 
 there's a bluetooth connect issue in latest LineageOS ROM for Redmi 2, but the old one is fine.<br/>
 if bluetooth keep disconnect, reboot the Android device, or forget paired device from both side, then pair again.
+
+# Another Project
+there is another project is very likely, this project can make android as bluetooth keyboard work with Windows/Linux<br/>
+https://github.com/AchimStuy/Kontroller <br/>
+follow the step to use it strictly:<br/>
+ Remove previous pairings with the host device in bluetooth settings(This has to be done once) <br/>
+ Open the app<br/>
+ Send a pairing request from the host device to the controlling device<br/>
+ Accept the pairing on the device running Kontroller<br/>
+ Use as Mouse/keyboard for your host device<br/>
+
+
